@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../screens/HomeScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import LoginScreen2 from "../screens/LoginScreen2";
 
 const Stack = createStackNavigator();
 
@@ -15,7 +14,7 @@ export const RootNavigation = () => {
         component={LoginScreen}
         options={{
           headerShown: false,
-          title: "Tela Inicial Feliz",
+          title: "Tela de Login",
         }}
       />
       <Stack.Screen
@@ -23,7 +22,7 @@ export const RootNavigation = () => {
         component={TabNavigation}
         options={{
           headerShown: false,
-          title: "Tela Inicial Feliz",
+          title: "Tela do aplicativo",
         }}
       />
     </Stack.Navigator>
@@ -44,7 +43,7 @@ export const TabNavigation = () => {
           ),
         }}
       />
-      <Tab.Screen name="Home2" component={LoginScreen2} />
+      <Tab.Screen name="Home2" component={LoginScreen} />
       <Tab.Screen name="Home3" component={HomeScreen} />
     </Tab.Navigator>
   );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 
-const LoginScreen = ({ navigation }) => {
+export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
 
@@ -89,5 +89,3 @@ const styles = StyleSheet.create({
     color: "black",
   },
 });
-
-export default LoginScreen;
