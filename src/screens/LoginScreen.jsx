@@ -1,32 +1,39 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Button, Snackbar, TextInput } from "react-native-paper";
 
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: "", error: "" });
+  const [email, setEmail] = useState({
+    value: "",
+    error: "",
+  });
   const [password, setPassword] = useState({ value: "", error: "" });
 
   const _onLoginPressed = () => {
     console.log("LoginIniciado");
     // navigation.navigate("Dashboard");
+
+    if (email.value === "" || password.value === "") {
+      setEmail({ ...email, error: "Entre com um e-mail válido" });
+      setPassword({ ...password, error: "Entre com uma senha" });
+    }
   };
 
   return (
     <View style={styles.container}>
       <TextInput
-        label="Email"
-        returnKeyType="next"
+        label="Digite seu E-mail"
         value={email.value}
         onChangeText={(text) => setEmail({ value: text, error: "" })}
         error={!!email.error}
         errorText={email.error}
-        autoCapitalize="none"
+        style={styles.input}
+        /* não essenciais  */
+        returnKeyType="next"
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
-        style={styles.input}
       />
-
       <TextInput
         label="Senha"
         returnKeyType="done"
@@ -37,7 +44,6 @@ export const LoginScreen = ({ navigation }) => {
         secureTextEntry
         style={styles.input}
       />
-
       <View style={styles.esqueceuSenha}>
         <TouchableOpacity
           onPress={() => navigation.navigate("EsqueceuSenhaScreen")}
@@ -45,17 +51,17 @@ export const LoginScreen = ({ navigation }) => {
           <Text style={styles.label}>Esqueceu sua senha?</Text>
         </TouchableOpacity>
       </View>
-
       <Button mode="contained" onPress={_onLoginPressed}>
         Login
       </Button>
-
       <View style={styles.row}>
         <Text style={styles.label}>Não possui uma conta? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
           <Text style={styles.link}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
+      <Snackbar visible={!!email.error}>{email.error}</Snackbar>
+      <Snackbar visible={!!password.error}>{password.error}</Snackbar>
     </View>
   );
 };
