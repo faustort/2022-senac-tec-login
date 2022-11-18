@@ -52,7 +52,7 @@ export const TabNavigation = () => {
           ),
         }}
       />
-      <Tab.Screen name="Home2" component={LoginScreen} />
+      <Tab.Screen name="Home2" component={HomeScreen} />
       <Tab.Screen name="Home3" component={HomeScreen} />
     </Tab.Navigator>
   );
