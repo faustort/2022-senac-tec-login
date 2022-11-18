@@ -1,10 +1,14 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import { Button, Snackbar, TextInput } from "react-native-paper";
+import { Button, HelperText, Snackbar, TextInput } from "react-native-paper";
 import { auth } from "../config/firebase";
 
 export const RegisterScreen = ({ navigation }) => {
+  const [nome, setNome] = useState({
+    value: "",
+    error: "",
+  });
   const [email, setEmail] = useState({
     value: "",
     error: "",
@@ -13,17 +17,36 @@ export const RegisterScreen = ({ navigation }) => {
     value: "",
     error: "",
   });
+  const [confirmaPassword, setConfirmaPassword] = useState({
+    value: "",
+    error: "",
+  });
 
   const _onLoginPressed = () => {
     console.log("RegistroIniciado");
-    // navigation.navigate("Dashboard");
-
-    if (email.value === "" || password.value === "") {
-      setEmail({ ...email, error: "Entre com um e-mail válido" });
-      setPassword({ ...password, error: "Entre com uma senha" });
-      return false;
+    let erro = false;
+    if (nome.value === "") {
+      setNome({ ...nome, error: "Entre com o seu nome maravilhoso" });
+      erro = true;
     }
-    CadastrarUsuario();
+    if (email.value === "") {
+      setEmail({ ...email, error: "Entre com um e-mail válido" });
+      erro = true;
+    }
+    if (password.value === "") {
+      setPassword({ ...password, error: "Entre com uma senha" });
+      erro = true;
+    }
+    if (confirmaPassword.value === "") {
+      setConfirmaPassword({
+        ...confirmaPassword,
+        error: "Repita sua senha",
+      });
+      erro = true;
+    }
+    if (!erro) {
+      CadastrarUsuario();
+    }
   };
 
   async function CadastrarUsuario() {
@@ -38,6 +61,21 @@ export const RegisterScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text>Cadastro</Text>
       <TextInput
+        label="Nome Completo"
+        value={nome.value}
+        onChangeText={(text) => setNome({ value: text, error: "" })}
+        error={!!nome.error}
+        errorText={nome.error}
+        style={styles.input}
+        /* não essenciais  */
+        returnKeyType="next"
+        textContentType="givenName"
+        keyboardType="default"
+      />
+      <HelperText type="error" visible={!!nome.error}>
+        {nome.error}
+      </HelperText>
+      <TextInput
         label="Digite seu E-mail"
         value={email.value}
         onChangeText={(text) => setEmail({ value: text, error: "" })}
@@ -50,6 +88,9 @@ export const RegisterScreen = ({ navigation }) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
+      <HelperText type="error" visible={!!email.error}>
+        {email.error}
+      </HelperText>
       <TextInput
         label="Senha"
         returnKeyType="done"
@@ -60,6 +101,22 @@ export const RegisterScreen = ({ navigation }) => {
         secureTextEntry
         style={styles.input}
       />
+      <HelperText type="error" visible={!!password.error}>
+        {password.error}
+      </HelperText>
+      <TextInput
+        label="Confirme sua Senha"
+        returnKeyType="done"
+        value={confirmaPassword.value}
+        onChangeText={(text) => setConfirmaPassword({ value: text, error: "" })}
+        error={!!confirmaPassword.error}
+        errorText={confirmaPassword.error}
+        secureTextEntry
+        style={styles.input}
+      />
+      <HelperText type="error" visible={!!confirmaPassword.error}>
+        {confirmaPassword.error}
+      </HelperText>
       <View style={styles.esqueceuSenha}>
         <TouchableOpacity
           onPress={() => navigation.navigate("EsqueceuSenhaScreen")}
@@ -68,16 +125,14 @@ export const RegisterScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <Button mode="contained" onPress={_onLoginPressed}>
-        Login
+        Cadastrar
       </Button>
       <View style={styles.row}>
-        <Text style={styles.label}>Não possui uma conta? </Text>
+        {/* <Text style={styles.label}>Não possui uma conta? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
           <Text style={styles.link}>Cadastrar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-      <Snackbar visible={!!email.error}>{email.error}</Snackbar>
-      <Snackbar visible={!!password.error}>{password.error}</Snackbar>
     </View>
   );
 };

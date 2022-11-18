@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import { Button, Snackbar, TextInput } from "react-native-paper";
+import { Button, HelperText, Snackbar, TextInput } from "react-native-paper";
 
 export const LoginScreen = ({ navigation }) => {
+  // const [email, setEmail] = useState("vazio@vazio.com");
   const [email, setEmail] = useState({
+    value: "",
+    error: "VOCE AINDA NAO DIGITOU SEU MANE",
+  });
+  const [password, setPassword] = useState({
     value: "",
     error: "",
   });
-  const [password, setPassword] = useState({ value: "", error: "" });
+  const [confirmaPassword, setConfirmaPassword] = useState(5.25);
 
   const _onLoginPressed = () => {
     console.log("LoginIniciado");
@@ -34,6 +39,7 @@ export const LoginScreen = ({ navigation }) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
+      <HelperText visible={!!email.error}>{email.error}</HelperText>
       <TextInput
         label="Senha"
         returnKeyType="done"
@@ -60,8 +66,6 @@ export const LoginScreen = ({ navigation }) => {
           <Text style={styles.link}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
-      <Snackbar visible={!!email.error}>{email.error}</Snackbar>
-      <Snackbar visible={!!password.error}>{password.error}</Snackbar>
     </View>
   );
 };
