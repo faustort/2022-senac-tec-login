@@ -4,6 +4,7 @@ import { HomeScreen } from "../screens/HomeScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { RegisterScreen } from "../screens/RegisterScreen";
+import { ForgotPasswordScreen } from "../screens/ForgotPassword";
 
 const Stack = createStackNavigator();
 
@@ -11,7 +12,7 @@ export const RootNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Inicial"
+        name="LoginScreen"
         component={LoginScreen}
         options={{
           headerShown: false,
@@ -21,6 +22,14 @@ export const RootNavigation = () => {
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
+        options={{
+          headerShown: false,
+          title: "Tela de Login",
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
         options={{
           headerShown: false,
           title: "Tela de Login",

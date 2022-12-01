@@ -1,10 +1,12 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import { Button, HelperText, Snackbar, TextInput } from "react-native-paper";
+import { TouchableOpacity, Text, View } from "react-native";
+import { Button, HelperText, TextInput } from "react-native-paper";
 import { auth } from "../config/firebase";
+import { styles } from "../config/styles";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export const RegisterScreen = ({ navigation }) => {
+  const [mostraErro, setMostraErro] = useState("");
   const [nome, setNome] = useState({
     value: "",
     error: "",
@@ -22,7 +24,7 @@ export const RegisterScreen = ({ navigation }) => {
     error: "",
   });
 
-  const _onLoginPressed = () => {
+  function onRegisterPressed() {
     console.log("RegistroIniciado");
     let erro = false;
     if (nome.value === "") {
@@ -44,23 +46,25 @@ export const RegisterScreen = ({ navigation }) => {
       });
       erro = true;
     }
-    if (!erro) {
-      CadastrarUsuario();
+    if (confirmaPassword.value != password.value) {
+      erro = true;
+      setConfirmaPassword({
+        ...confirmaPassword,
+        error: "Senhas não conferem",
+      });
     }
-  };
-
-  async function CadastrarUsuario() {
-    await createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then((value) => {
-        console.log("Cadastrado com sucesso! " + value.user.uid);
-      })
-      .catch((error) => lidarComErro(error.code));
+    if (!erro) {
+      createUserWithEmailAndPassword(auth, email.value, password.value)
+        .then((value) => {
+          console.log("Cadastrado com sucesso! " + value.user.uid);
+          navigation.navigate("Inicial", {
+            mensagem: "Você se registrou com muito sucesso! 💋",
+          });
+        })
+        .catch((error) => lidarComErro(error.code));
+    }
   }
 
-  // é pra estar LÁ EM CIMA
-  const [mostraErro, setMostraErro] = useState("");
-
-  // Já essa pode estar aqui mesmo
   function lidarComErro(erro) {
     if (erro == "auth/weak-password") {
       setMostraErro("Senha muito Fraquinha");
@@ -144,46 +148,13 @@ export const RegisterScreen = ({ navigation }) => {
         >
           <Text style={styles.label}>Esqueceu sua senha?</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+          <Text style={styles.label}>Fazer login</Text>
+        </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={_onLoginPressed}>
+      <Button mode="contained" onPress={onRegisterPressed}>
         Cadastrar
       </Button>
-      <View style={styles.row}>
-        {/* <Text style={styles.label}>Não possui uma conta? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-          <Text style={styles.link}>Cadastrar</Text>
-        </TouchableOpacity> */}
-      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    alignItems: "center",
-    marginBottom: 24,
-    paddingHorizontal: 26,
-    flex: 1,
-    justifyContent: "center",
-  },
-  esqueceuSenha: {
-    width: "100%",
-    alignItems: "flex-end",
-    marginBottom: 24,
-  },
-  row: {
-    flexDirection: "row",
-    marginTop: 4,
-  },
-  input: {
-    width: "100%",
-  },
-  label: {
-    color: "black",
-  },
-  link: {
-    fontWeight: "bold",
-    color: "black",
-  },
-});

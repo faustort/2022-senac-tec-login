@@ -1,36 +1,30 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
-import { auth } from "../config/firebase";
 import { styles } from "../config/styles";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebase";
 
-export const LoginScreen = ({ route, navigation }) => {
+export const ForgotPasswordScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState({
     value: "",
     error: "",
   });
-  const [password, setPassword] = useState({
-    value: "",
-    error: "",
-  });
+  // const [password, setPassword] = useState({
+  //   value: "",
+  //   error: "",
+  // });
   const [mostraErro, setMostraErro] = useState("");
   const { mensagem } = route.params || false;
 
-  function onLoginPressed() {
-    console.log("LoginIniciado");
-    if (email.value === "" || password.value === "") {
-      setEmail({ ...email, error: "Entre com um e-mail válido" });
-      setPassword({ ...password, error: "Entre com uma senha" });
-      return;
-    }
-    signInWithEmailAndPassword(auth, email.value, password.value)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        navigation.navigate("HomeNavigation");
+  function onForgotPressed() {
+    // forgor password using Firebase Auth
+    sendPasswordResetEmail(auth, email.value)
+      .then(() => {
+        setMostraErro("Email enviado com sucesso");
       })
       .catch((error) => {
-        lidarComErro(error.code);
+        setMostraErro(error.message);
       });
   }
 
@@ -68,24 +62,13 @@ export const LoginScreen = ({ route, navigation }) => {
         keyboardType="email-address"
       />
       <HelperText visible={!!email.error}>{email.error}</HelperText>
-      <TextInput
-        label="Senha"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: "" })}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry
-        style={styles.input}
-      />
+
       <View style={styles.esqueceuSenha}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ForgotPasswordScreen")}
-        >
-          <Text style={styles.label}>Esqueceu sua senha?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+          <Text style={styles.label}>Fazer login?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button mode="contained" onPress={onForgotPressed}>
         Login
       </Button>
       <View style={styles.row}>
