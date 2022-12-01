@@ -1,6 +1,8 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { Button, HelperText, Snackbar, TextInput } from "react-native-paper";
+import { auth } from "../config/firebase";
 
 export const LoginScreen = ({ navigation }) => {
   // const [email, setEmail] = useState("vazio@vazio.com");
@@ -12,7 +14,7 @@ export const LoginScreen = ({ navigation }) => {
     value: "",
     error: "",
   });
-  const [confirmaPassword, setConfirmaPassword] = useState(5.25);
+  const [deuErro, setDeuErro] = useState("");
 
   const _onLoginPressed = () => {
     console.log("LoginIniciado");
@@ -21,11 +23,28 @@ export const LoginScreen = ({ navigation }) => {
     if (email.value === "" || password.value === "") {
       setEmail({ ...email, error: "Entre com um e-mail válido" });
       setPassword({ ...password, error: "Entre com uma senha" });
+      return;
     }
+    loginComEmailESenha();
   };
+
+  async function loginComEmailESenha() {
+    signInWithEmailAndPassword(auth, email.value, password.value)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setDeuErro(errorMessage);
+      });
+  }
 
   return (
     <View style={styles.container}>
+      <HelperText type="error">{deuErro}</HelperText>
       <TextInput
         label="Digite seu E-mail"
         value={email.value}

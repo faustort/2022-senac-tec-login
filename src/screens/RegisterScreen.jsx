@@ -52,14 +52,35 @@ export const RegisterScreen = ({ navigation }) => {
   async function CadastrarUsuario() {
     await createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((value) => {
-        console.log("Cadastrado com sucesso!" + value.user.uid);
+        console.log("Cadastrado com sucesso! " + value.user.uid);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => lidarComErro(error.code));
+  }
+
+  // é pra estar LÁ EM CIMA
+  const [mostraErro, setMostraErro] = useState("");
+
+  // Já essa pode estar aqui mesmo
+  function lidarComErro(erro) {
+    if (erro == "auth/weak-password") {
+      setMostraErro("Senha muito Fraquinha");
+      return;
+    }
+    if (erro == "auth/credential-already-in-use") {
+      setMostraErro("E-mail já cadastrado");
+      return;
+    }
+    if (erro == "auth/invalid-email") {
+      setMostraErro("E-mail inválido");
+      return;
+    }
+    setMostraErro(erro);
   }
 
   return (
     <View style={styles.container}>
       <Text>Cadastro</Text>
+      <HelperText type="error">{mostraErro}</HelperText>
       <TextInput
         label="Nome Completo"
         value={nome.value}
