@@ -5,7 +5,6 @@ import { styles } from "../config/styles";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../config/firebase";
 
-
 export const ForgotPasswordScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState({
     value: "",
@@ -24,22 +23,6 @@ export const ForgotPasswordScreen = ({ route, navigation }) => {
       .catch((error) => {
         setMostraErro(error.message);
       });
-  }
-
-  function lidarComErro(erro) {
-    if (erro == "auth/wrong-password") {
-      setMostraErro("Senha errada 😕");
-      return;
-    }
-    if (erro == "auth/user-not-found") {
-      setMostraErro("Usuário não encontrado 😕");
-      return;
-    }
-    if (erro == "auth/invalid-email") {
-      setMostraErro("E-mail inválido 😕");
-      return;
-    }
-    setMostraErro(erro);
   }
 
   return (
