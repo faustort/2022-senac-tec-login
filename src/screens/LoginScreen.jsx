@@ -1,7 +1,14 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
-import { Button, HelperText, TextInput } from "react-native-paper";
+import {
+  Button,
+  Dialog,
+  HelperText,
+  Paragraph,
+  Portal,
+  TextInput,
+} from "react-native-paper";
 import { auth } from "../config/firebase";
 import { styles } from "../config/styles";
 
