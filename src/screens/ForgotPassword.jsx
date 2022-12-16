@@ -11,10 +11,7 @@ export const ForgotPasswordScreen = ({ route, navigation }) => {
     value: "",
     error: "",
   });
-  // const [password, setPassword] = useState({
-  //   value: "",
-  //   error: "",
-  // });
+
   const [mostraErro, setMostraErro] = useState("");
   const { mensagem } = route.params || false;
 
