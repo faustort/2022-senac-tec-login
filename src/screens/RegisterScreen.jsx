@@ -144,7 +144,7 @@ export const RegisterScreen = ({ navigation }) => {
       </HelperText>
       <View style={styles.esqueceuSenha}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("EsqueceuSenhaScreen")}
+          onPress={() => navigation.navigate("ForgotPasswordScreen")}
         >
           <Text style={styles.label}>Esqueceu sua senha?</Text>
         </TouchableOpacity>
