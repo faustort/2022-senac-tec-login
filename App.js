@@ -1,15 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { useColorScheme } from "react-native";
 import { DefaultTheme, Provider } from "react-native-paper";
-import { darkColoers, lightColors } from "./src/config/theme";
+import { darkColors, lightColors } from "./src/config/theme";
 import { RootNavigation } from "./src/navigation";
-
 
 export default function App() {
   const isDarkMode = useColorScheme() === "dark";
   const theme = {
     ...DefaultTheme,
-    colors: isDarkMode ? darkColoers : lightColors,
+    colors: isDarkMode ? darkColors : lightColors,
   };
 
   return (

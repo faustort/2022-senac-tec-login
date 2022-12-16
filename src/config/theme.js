@@ -1,4 +1,4 @@
-export const darkColoers = {
+export const darkColors = {
   primary: "rgb(87, 214, 246)",
   onPrimary: "rgb(0, 54, 65)",
   primaryContainer: "rgb(0, 78, 93)",
