@@ -1,0 +1,95 @@
+<html>
+<head>
+  <title>Hanoi Tower</title>
+  <style>
+    .tower {
+      display: inline-block;
+      border: 1px solid black;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .disk {
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      background-color: black;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hanoi Tower</h1>
+  <div id="towers"></div>
+
+  <script>
+    // Generate initial game state with 3 towers and 3 disks
+    let towers = [
+      [3, 2, 1],
+      [],
+      []
+    ];
+
+    // Move a disk from the source tower to the destination tower
+    function moveDisk(source, dest) {
+      let disk = towers[source].pop();
+      towers[dest].push(disk);
+      render();
+    }
+
+    // Check if the game is won (all disks are in the third tower)
+    function isWon() {
+      return towers[0].length === 0 && towers[1].length === 0;
+    }
+
+    // Render the game state to the page
+    function render() {
+      let towersEl = document.getElementById('towers');
+      towersEl.innerHTML = '';
+      for (let i = 0; i < towers.length; i++) {
+        let towerEl = document.createElement('div');
+        towerEl.classList.add('tower');
+
+        let disks = towers[i];
+        for (let j = 0; j < disks.length; j++) {
+          let diskEl = document.createElement('div');
+          diskEl.classList.add('disk');
+          towerEl.appendChild(diskEl);
+        }
+
+        towersEl.appendChild(towerEl);
+      }
+
+      // If the game is won, show a message and disable the buttons
+      if (isWon()) {
+        alert('You won!');
+        let buttons = document.querySelectorAll('button');
+        for (let i = 0; i < buttons.length; i++) {
+          buttons[i].disabled = true;
+        }
+      }
+    }
+
+    // Set up the click event handlers for the buttons
+    function init() {
+      let tower1El = document.getElementById('tower1');
+      let tower2El = document.getElementById('tower2');
+      let tower3El = document.getElementById('tower3');
+
+      tower1El.addEventListener('click', function() {
+        moveDisk(0, 1);
+      });
+      tower2El.addEventListener('click', function() {
+        moveDisk(0, 2);
+      });
+      tower3El.addEventListener('click', function() {
+        moveDisk(1, 2);
+      });
+    }
+
+    // Start the game
+    init();
+    render();
+  </script>
+</body>
+</html>

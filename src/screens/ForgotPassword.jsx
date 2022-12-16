@@ -3,7 +3,8 @@ import { TouchableOpacity, Text, View } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
 import { styles } from "../config/styles";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../config/firebase";
+
 
 export const ForgotPasswordScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState({

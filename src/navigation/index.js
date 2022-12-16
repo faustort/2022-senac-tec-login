@@ -5,12 +5,30 @@ import { LoginScreen } from "../screens/LoginScreen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { RegisterScreen } from "../screens/RegisterScreen";
 import { ForgotPasswordScreen } from "../screens/ForgotPassword";
+import CPFValidator from "../screens/ValidaCPF";
+import MyDataTable from "../screens/DataTable";
 
 const Stack = createStackNavigator();
 
 export const RootNavigation = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="DataTable"
+        component={MyDataTable}
+        options={{
+          headerShown: false,
+          title: "Tela de Login",
+        }}
+      />
+      <Stack.Screen
+        name="ValidaCPF"
+        component={CPFValidator}
+        options={{
+          headerShown: false,
+          title: "Tela de Login",
+        }}
+      />
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
